@@ -17,7 +17,9 @@ public class DBConnectionPool {
 			this.dataSource.setUser(connectInfo.getUser());
 			this.dataSource.setPassword(connectInfo.getPass());
 
-			this.dataSource.setAcquireRetryAttempts(1);
+			this.dataSource.setAcquireIncrement(3);
+			this.dataSource.setAcquireRetryAttempts(5);
+			this.dataSource.setTestConnectionOnCheckout(true);
 		} catch (PropertyVetoException ex) {
 			throw new RuntimeException("Failed to instantiate data source: " + ex.getMessage(), ex);
 		}

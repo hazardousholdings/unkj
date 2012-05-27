@@ -10,7 +10,7 @@ public class UnkJGuiceModule extends AbstractModule {
 	private Infrastructure infrastructure;
 
 	public UnkJGuiceModule(File bootstrapConfigFile, Version appVersion) {
-		this.infrastructure = InfrastructureFactory.create(bootstrapConfigFile, appVersion);
+		this.infrastructure = InfrastructureFactory.init(bootstrapConfigFile, appVersion);
 	}
 
 	@Override

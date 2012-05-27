@@ -21,7 +21,7 @@ public class InfrastructureFactory {
 		this.bootstrapConfig = bootstrapConfig;
 	}
 
-	public static Infrastructure create(File bootstrapConfigFile, Version appVersion) {
+	public static Infrastructure init(File bootstrapConfigFile, Version appVersion) {
 		BootstrapConfiguration bootstrapConfig = new BootstrapConfiguration(bootstrapConfigFile, appVersion);
 		InfrastructureFactory factory = new InfrastructureFactory(bootstrapConfig);
 
