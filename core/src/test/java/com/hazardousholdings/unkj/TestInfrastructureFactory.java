@@ -4,20 +4,16 @@ public class TestInfrastructureFactory {
 
 	private static Infrastructure INFRASTRUCTURE;
 
-	public synchronized static Infrastructure get() {
-		if(INFRASTRUCTURE == null) {
-			InfrastructureFactory factory = new InfrastructureFactory(new TestBootstrapConfiguration());
-			Infrastructure infrastructure = factory.bootstrap();
-			factory.initDefaults(infrastructure);
-			factory.initFromConfig(infrastructure);
-			INFRASTRUCTURE = infrastructure;
-		}
-
+	public static synchronized Infrastructure get() {
 		return INFRASTRUCTURE;
 	}
 
+	public static synchronized void set(Infrastructure infrastructure) {
+		INFRASTRUCTURE = infrastructure;
+	}
+
 	public static synchronized void reset() {
-		INFRASTRUCTURE = null;
+		set(null);
 	}
 
 }

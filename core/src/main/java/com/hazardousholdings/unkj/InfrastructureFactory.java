@@ -23,6 +23,10 @@ public class InfrastructureFactory {
 
 	public static Infrastructure init(File bootstrapConfigFile, Version appVersion) {
 		BootstrapConfiguration bootstrapConfig = new BootstrapConfiguration(bootstrapConfigFile, appVersion);
+		return init(bootstrapConfig);
+	}
+
+	protected static Infrastructure init(BootstrapConfiguration bootstrapConfig) {
 		InfrastructureFactory factory = new InfrastructureFactory(bootstrapConfig);
 
 		Infrastructure infrastructure = factory.bootstrap();
