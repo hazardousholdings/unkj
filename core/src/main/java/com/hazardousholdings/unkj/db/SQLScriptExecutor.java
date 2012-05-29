@@ -19,6 +19,8 @@ public class SQLScriptExecutor {
 		String statementText = "";
 
 		try(Connection connection = this.dataSource.getConnection()) {
+			connection.setAutoCommit(false);
+
 			String line;
 			while((line = script.readLine()) != null) {
 				if(!line.isEmpty() && !line.trim().startsWith("--") && !line.trim().startsWith("//")) {
@@ -26,7 +28,7 @@ public class SQLScriptExecutor {
 				}
 
 				if(line.trim().endsWith(";")) {
-					statementText = statementText.substring(0, line.length() - 1);
+					statementText = statementText.substring(0, statementText.length() - 1);
 					try(Statement statement = connection.createStatement()) {
 						statement.executeUpdate(statementText);
 					}

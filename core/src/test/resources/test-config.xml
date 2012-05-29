@@ -15,7 +15,7 @@
 			<username>unkjtest</username>
 			<password>unkjtest</password>
 		</database>
-		<config key="log-level">WARNING</config>
+		<config key="log-level">SEVERE</config>
 	</configuration>
 
 	<groups>

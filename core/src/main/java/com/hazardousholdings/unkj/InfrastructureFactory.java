@@ -35,7 +35,7 @@ public class InfrastructureFactory {
 		DataSource unkjPool = new DBConnectionPool(this.bootstrapConfig.getDBInfo()).getDataSource();
 		SQLScriptExecutor unkjScriptExecutor = new SQLScriptExecutor(unkjPool);
 
-		try (InputStream in = InfrastructureFactory.class.getResourceAsStream("db-create.sql");
+		try (InputStream in = InfrastructureFactory.class.getResourceAsStream("/db-create.sql");
 			 Reader reader = new InputStreamReader(in);
 			 BufferedReader bufferedReader = new BufferedReader(reader)) {
 
