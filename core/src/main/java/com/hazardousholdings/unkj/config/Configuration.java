@@ -1,5 +1,6 @@
 package com.hazardousholdings.unkj.config;
 
+import com.hazardousholdings.unkj.cache.Cache;
 import com.hazardousholdings.unkj.db.JDBCConnectInfo;
 
 import javax.sql.DataSource;
@@ -8,8 +9,8 @@ public class Configuration {
 
 	private ConfigurationStore configStore;
 
-	public Configuration(DataSource dataSource) {
-		this(new DBConfigurationStore(dataSource));
+	public Configuration(DataSource dataSource, Cache cache) {
+		this(new CacheConfigurationStore(cache, new DBConfigurationStore(dataSource)));
 	}
 
 	protected Configuration(ConfigurationStore configStore) {

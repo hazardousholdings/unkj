@@ -29,5 +29,4 @@ public class DBConnectionPool {
 	public DataSource getDataSource() {
 		return this.dataSource;
 	}
-
 }

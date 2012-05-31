@@ -7,6 +7,8 @@ import com.hazardousholdings.unkj.cache.NoOpCache;
 import com.hazardousholdings.unkj.config.Configuration;
 import com.hazardousholdings.unkj.db.DBConnectionPool;
 
+import javax.sql.DataSource;
+
 public class Infrastructure {
 
 	private UserManager userManager;
@@ -15,12 +17,14 @@ public class Infrastructure {
 	private Cache cache;
 
 	Infrastructure(BootstrapConfiguration bootstrapConfiguration) {
-		DBConnectionPool unkjPool = new DBConnectionPool(bootstrapConfiguration.getDBInfo());
+		DataSource unkjPool = new DBConnectionPool(bootstrapConfiguration.getDBInfo()).getDataSource();
 
-		this.userManager = new UserManager(unkjPool.getDataSource());
-		this.groupManager = new GroupManager(unkjPool.getDataSource());
-		this.configuration = new Configuration(unkjPool.getDataSource());
+		Configuration cacheConfiguration = new Configuration(unkjPool, new NoOpCache());
 		this.cache = new NoOpCache();
+
+		this.configuration = new Configuration(unkjPool, this.cache);
+		this.userManager = new UserManager(unkjPool);
+		this.groupManager = new GroupManager(unkjPool);
 	}
 
 	public Configuration getConfiguration() {

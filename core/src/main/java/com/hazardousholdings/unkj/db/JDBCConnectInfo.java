@@ -1,5 +1,9 @@
 package com.hazardousholdings.unkj.db;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class JDBCConnectInfo {
 
 	private String className;
@@ -28,6 +32,10 @@ public class JDBCConnectInfo {
 
 	public String getDriverClassName() {
 		return this.className;
+	}
+
+	public Connection getConnection() throws SQLException {
+		return DriverManager.getConnection(this.getConnectionString(), this.getUser(), this.getPass());
 	}
 
 }

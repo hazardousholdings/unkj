@@ -25,7 +25,7 @@ class BootstrapConfiguration {
 		}
 	}
 
-	BootstrapConfiguration(Document configXml, Version version) {
+	protected BootstrapConfiguration(Document configXml, Version version) {
 		this.version = version;
 		parseDocument(configXml);
 	}
