@@ -16,83 +16,130 @@ class DBUserStore extends DBStore implements UserStore {
 	}
 
 	@Override
-	public User authorize(final String email, final String password) {
+	public User authorize(final String username, final String password) {
 		return executeSelect(new SelectQuery<User>() {
 			@Override
 			public String getQueryTemplate() {
-				return "select * from users where email = ? and password = ?";
+				return "select id, username, password, email, phone from users where username = ?";
 			}
 
 			@Override
 			public void bindParameters(PreparedStatement statement) throws SQLException {
-				statement.setString(1, email);
-				statement.setString(2, password);
+				statement.setString(1, username);
 			}
 
 			@Override
 			public User handleResults(ResultSet resultSet) throws SQLException {
-				return handleUser(resultSet);
+				if(resultSet.next()) {
+					String hashedPassword = resultSet.getString("password");
+					if(PasswordUtil.passwordMatches(password, hashedPassword)) {
+						return handleUser(resultSet);
+					} else {
+						return null;
+					}
+				} else {
+					return null;
+				}
 			}
 		});
 	}
 
 	@Override
-	public User getUser(final long userId) {
+	public User getUser(final UserId userId) {
 		return executeSelect(new SelectQuery<User>() {
 			@Override
 			public String getQueryTemplate() {
-				return "select * from users where id = ?";
+				return "select id, username, email, phone from users where id = ?";
 			}
 
 			@Override
 			public void bindParameters(PreparedStatement statement) throws SQLException {
-				statement.setLong(1, userId);
+				statement.setLong(1, userId.getLong());
 			}
 
 			@Override
 			public User handleResults(ResultSet resultSet) throws SQLException {
-				return handleUser(resultSet);
+				if(resultSet.next()) {
+					return handleUser(resultSet);
+				} else {
+					return null;
+				}
 			}
 		});
 	}
 
 	@Override
-	public long addUser(User user) {
+	public long createUser(final User user, final String password) {
+		final String hashedPassword = PasswordUtil.hash(password);
 		return executeInsertWithGeneratedKey(new Query() {
 			@Override
 			public String getQueryTemplate() {
-				return "insert into users () values ()";
+				return "insert into users (username, password, email, phone) values (?, ?, ?, ?)";
 			}
 
 			@Override
 			public void bindParameters(PreparedStatement statement) throws SQLException {
-
+				statement.setString(1, user.getUsername());
+				statement.setString(2, hashedPassword);
+				statement.setString(3, user.getEmail());
+				statement.setString(4, user.getPhone());
 			}
 		});
 	}
 
 	@Override
-	public void updateUser(User user) {
-		int affectedRows = executeUpdate(new Query() {
+	public void updateUser(final User user) {
+		executeUpdate(new Query() {
 			@Override
 			public String getQueryTemplate() {
-				return "update users where id = ?";
+				return "update users set email = ?, phone = ? where id = ?";
 			}
 
 			@Override
 			public void bindParameters(PreparedStatement statement) throws SQLException {
-
+				statement.setString(1, user.getEmail());
+				statement.setString(2, user.getPhone());
+				statement.setLong(3, user.getId().getLong());
 			}
 		});
+	}
 
-		if(affectedRows < 1) {
+	public void changePassword(final UserId userId, String newPassword) {
+		final String hashedPassword = PasswordUtil.hash(newPassword);
+		executeUpdate(new Query() {
+			@Override
+			public String getQueryTemplate() {
+				return "update users set password = ? where id = ?";
+			}
 
-		} else if(affectedRows > 1) {
+			@Override
+			public void bindParameters(PreparedStatement statement) throws SQLException {
+				statement.setString(1, hashedPassword);
+				statement.setLong(2, userId.getLong());
+			}
+		});
+	}
 
-		}
+	@Override
+	public void deleteUser(final UserId userId) {
+		executeUpdate(new Query() {
+			@Override
+			public String getQueryTemplate() {
+				return "delete from users where id = ?";
+			}
+
+			@Override
+			public void bindParameters(PreparedStatement statement) throws SQLException {
+				statement.setLong(1, userId.getLong());
+			}
+		});
 	}
 
 	private User handleUser(ResultSet resultSet) throws SQLException {
-		return new User();
+		return new User(
+				new UserId(resultSet.getLong("id")),
+				resultSet.getString("username"),
+				resultSet.getString("email"),
+				resultSet.getString("phone"));
 	}
 }
