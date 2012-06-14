@@ -62,6 +62,7 @@ public class UserManagerTest {
 		assertNotNull(goodAuthUser);
 	}
 
+	@Test
 	public void changePassword() {
 		userManager.changePassword(existingUser.getId(), "newPassword");
 
