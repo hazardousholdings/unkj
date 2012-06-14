@@ -22,6 +22,10 @@ public class User {
 		return this.id;
 	}
 
+	protected void setId(UserId id) {
+		this.id = id;
+	}
+
 	public String getUsername() {
 		return this.username;
 	}

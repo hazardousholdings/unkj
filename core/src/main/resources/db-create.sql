@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS users
 (
    "id" bigserial NOT NULL,
    "username" character varying NOT NULL,
-   "salt" character varying NOT NULL,
    "password" character varying NOT NULL,
    "email" character varying,
    "phone" character varying,

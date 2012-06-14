@@ -16,11 +16,35 @@ class DBUserStore extends DBStore implements UserStore {
 	}
 
 	@Override
-	public User authorize(final String username, final String password) {
+	public String getHashedPassword(final String username) {
+		return executeSelect(new SelectQuery<String>() {
+			@Override
+			public String getQueryTemplate() {
+				return "select password from users where username = ?";
+			}
+
+			@Override
+			public void bindParameters(PreparedStatement statement) throws SQLException {
+				statement.setString(1, username);
+			}
+
+			@Override
+			public String handleResults(ResultSet resultSet) throws SQLException {
+				if(resultSet.next()) {
+					return resultSet.getString(1);
+				} else {
+					return null;
+				}
+			}
+		});
+	}
+
+	@Override
+	public User getUser(final String username) {
 		return executeSelect(new SelectQuery<User>() {
 			@Override
 			public String getQueryTemplate() {
-				return "select id, username, password, email, phone from users where username = ?";
+				return "select id, username, email, phone from users where username = ?";
 			}
 
 			@Override
@@ -31,12 +55,7 @@ class DBUserStore extends DBStore implements UserStore {
 			@Override
 			public User handleResults(ResultSet resultSet) throws SQLException {
 				if(resultSet.next()) {
-					String hashedPassword = resultSet.getString("password");
-					if(PasswordUtil.passwordMatches(password, hashedPassword)) {
-						return handleUser(resultSet);
-					} else {
-						return null;
-					}
+					return handleUser(resultSet);
 				} else {
 					return null;
 				}
@@ -69,22 +88,33 @@ class DBUserStore extends DBStore implements UserStore {
 	}
 
 	@Override
-	public long createUser(final User user, final String password) {
+	public UserId createUser(final User user, final String password) throws UsernameTakenException {
 		final String hashedPassword = PasswordUtil.hash(password);
-		return executeInsertWithGeneratedKey(new Query() {
-			@Override
-			public String getQueryTemplate() {
-				return "insert into users (username, password, email, phone) values (?, ?, ?, ?)";
-			}
+		try {
+			long id = executeInsertWithGeneratedKey(new Query() {
+				@Override
+				public String getQueryTemplate() {
+					return "insert into users (username, password, email, phone) values (?, ?, ?, ?)";
+				}
 
-			@Override
-			public void bindParameters(PreparedStatement statement) throws SQLException {
-				statement.setString(1, user.getUsername());
-				statement.setString(2, hashedPassword);
-				statement.setString(3, user.getEmail());
-				statement.setString(4, user.getPhone());
+				@Override
+				public void bindParameters(PreparedStatement statement) throws SQLException {
+					statement.setString(1, user.getUsername());
+					statement.setString(2, hashedPassword);
+					statement.setString(3, user.getEmail());
+					statement.setString(4, user.getPhone());
+				}
+			});
+			return new UserId(id);
+		} catch (RuntimeException ex) {
+			if(ex.getCause() instanceof SQLException) {
+				SQLException sqlException = (SQLException) ex.getCause();
+				if(sqlException.getSQLState().equals("23505")) {  //23505 = UNIQUE VIOLATION
+					throw new UsernameTakenException(user.getUsername(), sqlException);
+				}
 			}
-		});
+			throw ex;
+		}
 	}
 
 	@Override
@@ -122,17 +152,19 @@ class DBUserStore extends DBStore implements UserStore {
 
 	@Override
 	public void deleteUser(final UserId userId) {
-		executeUpdate(new Query() {
-			@Override
-			public String getQueryTemplate() {
-				return "delete from users where id = ?";
-			}
+		if(userId != null) {
+			executeUpdate(new Query() {
+				@Override
+				public String getQueryTemplate() {
+					return "delete from users where id = ?";
+				}
 
-			@Override
-			public void bindParameters(PreparedStatement statement) throws SQLException {
-				statement.setLong(1, userId.getLong());
-			}
-		});
+				@Override
+				public void bindParameters(PreparedStatement statement) throws SQLException {
+					statement.setLong(1, userId.getLong());
+				}
+			});
+		}
 	}
 
 	private User handleUser(ResultSet resultSet) throws SQLException {

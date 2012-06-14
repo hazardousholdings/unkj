@@ -1,7 +1,7 @@
 package com.hazardousholdings.unkj;
 
 import com.hazardousholdings.unkj.integration.InfrastructureFactoryTest;
-import com.hazardousholdings.unkj.integration.SomeOtherTest;
+import com.hazardousholdings.unkj.integration.UserManagerTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ InfrastructureFactoryTest.class, SomeOtherTest.class })
+@Suite.SuiteClasses({ InfrastructureFactoryTest.class, UserManagerTest.class })
 public class FreshDBIntegrationTestSuite {
 
 	private static BootstrapConfiguration freshBootstrapConfig;
