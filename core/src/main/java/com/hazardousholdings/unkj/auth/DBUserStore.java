@@ -73,7 +73,7 @@ class DBUserStore extends DBStore implements UserStore {
 
 			@Override
 			public void bindParameters(PreparedStatement statement) throws SQLException {
-				statement.setLong(1, userId.getLong());
+				statement.setLong(1, userId.getId());
 			}
 
 			@Override
@@ -91,7 +91,7 @@ class DBUserStore extends DBStore implements UserStore {
 	public UserId createUser(final User user, final String password) throws UsernameTakenException {
 		final String hashedPassword = PasswordUtil.hash(password);
 		try {
-			long id = executeInsertWithGeneratedKey(new Query() {
+			return executeInsert(new InsertQuery<UserId>() {
 				@Override
 				public String getQueryTemplate() {
 					return "insert into users (username, password, email, phone) values (?, ?, ?, ?)";
@@ -104,8 +104,16 @@ class DBUserStore extends DBStore implements UserStore {
 					statement.setString(3, user.getEmail());
 					statement.setString(4, user.getPhone());
 				}
+
+				@Override
+				public UserId getInsertedKey(ResultSet resultSet) throws SQLException {
+					if (resultSet.next()) {
+						return new UserId(resultSet.getLong(1));
+					} else {
+						throw new SQLException("No generated key returned");
+					}
+				}
 			});
-			return new UserId(id);
 		} catch (RuntimeException ex) {
 			if(ex.getCause() instanceof SQLException) {
 				SQLException sqlException = (SQLException) ex.getCause();
@@ -129,7 +137,7 @@ class DBUserStore extends DBStore implements UserStore {
 			public void bindParameters(PreparedStatement statement) throws SQLException {
 				statement.setString(1, user.getEmail());
 				statement.setString(2, user.getPhone());
-				statement.setLong(3, user.getId().getLong());
+				statement.setLong(3, user.getId().getId());
 			}
 		});
 	}
@@ -145,7 +153,7 @@ class DBUserStore extends DBStore implements UserStore {
 			@Override
 			public void bindParameters(PreparedStatement statement) throws SQLException {
 				statement.setString(1, hashedPassword);
-				statement.setLong(2, userId.getLong());
+				statement.setLong(2, userId.getId());
 			}
 		});
 	}
@@ -161,7 +169,7 @@ class DBUserStore extends DBStore implements UserStore {
 
 				@Override
 				public void bindParameters(PreparedStatement statement) throws SQLException {
-					statement.setLong(1, userId.getLong());
+					statement.setLong(1, userId.getId());
 				}
 			});
 		}

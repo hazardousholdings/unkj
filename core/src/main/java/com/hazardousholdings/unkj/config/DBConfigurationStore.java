@@ -1,6 +1,7 @@
 package com.hazardousholdings.unkj.config;
 
 import com.hazardousholdings.unkj.db.DBStore;
+import com.hazardousholdings.unkj.db.Key;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -43,7 +44,7 @@ class DBConfigurationStore extends DBStore implements ConfigurationStore {
 			});
 
 			if(setDefault == null) {
-				executeInsert(new Query() {
+				executeInsert(new InsertQuery<ConfigKey>() {
 					@Override
 					public String getQueryTemplate() {
 						return "insert into config (\"key\", \"value\", \"default\") values (?, ?, ?)";
@@ -54,6 +55,11 @@ class DBConfigurationStore extends DBStore implements ConfigurationStore {
 						statement.setString(1, key);
 						statement.setString(2, value);
 						statement.setBoolean(3, isDefault);
+					}
+
+					@Override
+					public ConfigKey getInsertedKey(ResultSet resultSet) throws SQLException {
+						return new ConfigKey(key);
 					}
 				});
 			} else if(setDefault == isDefault) {
@@ -100,5 +106,15 @@ class DBConfigurationStore extends DBStore implements ConfigurationStore {
 				}
 			}
 		});
+	}
+
+	public class ConfigKey implements Key {
+		private String key;
+		public ConfigKey(String key) {
+			this.key = key;
+		}
+		public String getName() {
+			return this.key;
+		}
 	}
 }

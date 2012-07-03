@@ -1,23 +1,9 @@
 package com.hazardousholdings.unkj.auth;
 
-public class UserId {
+import com.hazardousholdings.unkj.db.SurrogateKey;
 
-	private long id;
-
+public class UserId extends SurrogateKey {
 	public UserId(long id) {
-		this.id = id;
+		super(id);
 	}
-
-	public long getLong() {
-		return this.id;
-	}
-
-	public String toString() {
-		return "User ID: " + Long.toString(this.getLong());
-	}
-
-	public boolean equals(Object otherObject) {
-		return otherObject != null && otherObject instanceof UserId && ((UserId) otherObject).getLong() == this.id;
-	}
-
 }

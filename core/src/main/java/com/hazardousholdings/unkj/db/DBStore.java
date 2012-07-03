@@ -58,36 +58,23 @@ public abstract class DBStore {
 		}
 	}
 
-	protected void executeInsert(Query insert) {
-		executeUpdate(insert);
-	}
-
-	protected void executeInsert(Query insert, Connection connection) {
-		executeUpdate(insert, connection);
-	}
-
-	protected long executeInsertWithGeneratedKey(Query insert) {
+	protected <K extends Key> K executeInsert(InsertQuery<K> insert) {
 		try (Connection connection = getConnection()) {
 
-			return executeInsertWithGeneratedKey(insert, connection);
+			return executeInsert(insert, connection);
 
 		} catch (SQLException ex) {
 			throw new RuntimeException("Failed to get DB connection: " + ex.getMessage(), ex);
 		}
 	}
 
-	protected long executeInsertWithGeneratedKey(Query insert, Connection connection) {
+	protected <K extends Key> K executeInsert(InsertQuery<K> insert, Connection connection) {
 		try (PreparedStatement statement = connection.prepareStatement(insert.getQueryTemplate(), PreparedStatement.RETURN_GENERATED_KEYS)) {
 
 			insert.bindParameters(statement);
 			statement.executeUpdate();
-
-			try (ResultSet keys = statement.getGeneratedKeys()) {
-				if (keys.next()) {
-					return keys.getLong(1);
-				} else {
-					throw new SQLException("No generated key returned");
-				}
+			try (ResultSet resultSet = statement.getGeneratedKeys()) {
+				return insert.getInsertedKey(resultSet);
 			}
 
 		} catch (SQLException ex) {
@@ -95,7 +82,7 @@ public abstract class DBStore {
 		}
 	}
 
-	protected void executeUpdateOrInsert(Query update, Query insert) {
+	protected void executeUpdateOrInsert(Query update, InsertQuery<?> insert) {
 		try (Connection connection = getConnection()) {
 
 			int originalIsolation = connection.getTransactionIsolation();
@@ -120,6 +107,10 @@ public abstract class DBStore {
 
 	protected interface SelectQuery<T> extends Query {
 		public T handleResults(ResultSet resultSet) throws SQLException;
+	}
+
+	public interface InsertQuery<K extends Key> extends Query {
+		public K getInsertedKey(ResultSet resultSet) throws SQLException;
 	}
 
 
