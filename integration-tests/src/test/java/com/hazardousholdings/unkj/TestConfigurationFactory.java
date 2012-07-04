@@ -15,7 +15,7 @@ public class TestConfigurationFactory {
 		} else {
 			filename = "/test-unkj-config.xml";
 		}
-		try (Reader unkjConfigReader = new InputStreamReader(ExistingDBIntegrationTestSuite.class.getResourceAsStream(filename))) {
+		try (Reader unkjConfigReader = new InputStreamReader(TestConfigurationFactory.class.getResourceAsStream(filename))) {
 			return new BootstrapConfiguration(unkjConfigReader);
 		}
 	}
