@@ -20,7 +20,7 @@ public class InfrastructureFactoryTest {
 		Configuration config = infrastructure.getConfiguration();
 
 		String logLevel = config.get(UnkJConfigKeys.LOG_LEVEL);
-		assertEquals(Level.SEVERE.toString(), logLevel);
+		assertEquals(Level.WARNING.toString(), logLevel);
 
 		JDBCConnectInfo connectInfo = config.getDBConnectInfo("main-db");
 		assertNotNull(connectInfo);

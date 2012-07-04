@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<application xmlns="http://unkj.hazardousholdings.com/configuration"
+<application-config xmlns="http://unkj.hazardousholdings.com/configuration/app"
 			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			 xsi:schemaLocation="http://unkj.hazardousholdings.com/configuration app-config.xsd">
-
-	<unkj-database>
-		<class-name>org.postgresql.Driver</class-name>
-		<connection-string>jdbc:postgresql://localhost:5432/unkj</connection-string>
-		<username>unkj</username>
-		<password>unkj</password>
-	</unkj-database>
+			 xsi:schemaLocation="http://unkj.hazardousholdings.com/configuration/app app-config.xsd">
 
 	<configuration>
 		<database key="ska">
@@ -24,4 +17,4 @@
 		<group>admins</group>
 	</groups>
 
-</application>
+</application-config>

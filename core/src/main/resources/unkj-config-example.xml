@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<unkj-config xmlns="http://unkj.hazardousholdings.com/configuration/unkj"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 xsi:schemaLocation="http://unkj.hazardousholdings.com/configuration/unkj unkj-config.xsd">
+
+	<database>
+		<connection-string>localhost:5432/unkj</connection-string>
+		<username>unkj</username>
+		<password>unkj</password>
+	</database>
+
+</unkj-config>

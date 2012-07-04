@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<unkj-config xmlns="http://unkj.hazardousholdings.com/configuration/unkj">
+
+	<database>
+		<connection-string>localhost:5432/unkjtest</connection-string>
+		<username>unkjtest</username>
+		<password>unkjtest</password>
+	</database>
+
+</unkj-config>

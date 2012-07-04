@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<application xmlns="http://unkj.hazardousholdings.com/configuration">
-
-	<unkj-database>
-		<class-name>org.postgresql.Driver</class-name>
-		<connection-string>jdbc:postgresql://localhost:5432/unkjtest</connection-string>
-		<username>unkjtest</username>
-		<password>unkjtest</password>
-	</unkj-database>
+<application-config xmlns="http://unkj.hazardousholdings.com/configuration/app">
 
 	<configuration>
 		<database key="main-db">
@@ -22,4 +15,4 @@
 		<group>admins</group>
 	</groups>
 
-</application>
+</application-config>

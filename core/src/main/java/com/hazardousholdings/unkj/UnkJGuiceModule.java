@@ -3,14 +3,12 @@ package com.hazardousholdings.unkj;
 import com.google.inject.AbstractModule;
 import com.hazardousholdings.unkj.config.Configuration;
 
-import java.io.File;
-
 public class UnkJGuiceModule extends AbstractModule {
 
 	private Infrastructure infrastructure;
 
-	public UnkJGuiceModule(File bootstrapConfigFile, Version appVersion) {
-		this.infrastructure = InfrastructureFactory.init(bootstrapConfigFile, appVersion);
+	public UnkJGuiceModule(BootstrapConfiguration bootstrapConfig) {
+		this.infrastructure = new Infrastructure(bootstrapConfig);
 	}
 
 	@Override

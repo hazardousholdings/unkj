@@ -16,8 +16,8 @@ public class Infrastructure {
 	private Configuration configuration;
 	private Cache cache;
 
-	Infrastructure(BootstrapConfiguration bootstrapConfiguration) {
-		DataSource unkjPool = new DBConnectionPool(bootstrapConfiguration.getDBInfo()).getDataSource();
+	public Infrastructure(BootstrapConfiguration bootstrapConfig) {
+		DataSource unkjPool = new DBConnectionPool(bootstrapConfig.getDBInfo()).getDataSource();
 
 		Configuration cacheConfiguration = new Configuration(unkjPool, new NoOpCache());
 		this.cache = new NoOpCache();
