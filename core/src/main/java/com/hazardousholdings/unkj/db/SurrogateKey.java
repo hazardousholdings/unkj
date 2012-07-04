@@ -2,7 +2,7 @@ package com.hazardousholdings.unkj.db;
 
 import java.io.Serializable;import java.lang.Long;import java.lang.Object;import java.lang.String;
 
-public abstract class SurrogateKey implements Key, Serializable {
+public abstract class SurrogateKey extends Key implements Serializable {
 
 	private long id;
 
@@ -12,6 +12,11 @@ public abstract class SurrogateKey implements Key, Serializable {
 
 	public long getId() {
 		return this.id;
+	}
+
+	@Override
+	protected String getSortOrder() {
+		return Long.toString(this.id);
 	}
 
 	public boolean equals(Object otherObject) {
