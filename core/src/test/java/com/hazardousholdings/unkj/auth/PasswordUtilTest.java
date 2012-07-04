@@ -6,7 +6,7 @@ import static junit.framework.Assert.*;
 
 public class PasswordUtilTest {
 
-	@Test
+	//@Test
 	public void hash() {
 		final String password = "password";
 		final String hashedPassword = PasswordUtil.hash(password);
