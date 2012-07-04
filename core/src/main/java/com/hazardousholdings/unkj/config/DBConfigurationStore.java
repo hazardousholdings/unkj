@@ -108,17 +108,9 @@ class DBConfigurationStore extends DBStore implements ConfigurationStore {
 		});
 	}
 
-	public class ConfigKey extends Key {
-		private String key;
+	public class ConfigKey extends Key<String> {
 		public ConfigKey(String key) {
-			this.key = key;
-		}
-		public String getName() {
-			return this.key;
-		}
-		@Override
-		protected String getSortOrder() {
-			return this.key;
+			super(key);
 		}
 	}
 }

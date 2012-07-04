@@ -1,9 +1,9 @@
 package com.hazardousholdings.unkj.auth;
 
-import com.hazardousholdings.unkj.db.SurrogateKey;
+import com.hazardousholdings.unkj.db.Key;
 
-public class UserId extends SurrogateKey {
-	public UserId(long id) {
+public class UserId extends Key<Long> {
+	public UserId(Long id) {
 		super(id);
 	}
 }
