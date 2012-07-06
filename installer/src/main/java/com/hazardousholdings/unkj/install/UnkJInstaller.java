@@ -5,7 +5,7 @@ import com.hazardousholdings.unkj.Infrastructure;
 
 import java.io.*;
 
-public class Installer {
+public class UnkJInstaller {
 
 	public static void main(String[] args) throws IOException {
 		File unkjConfigFile = new File(args[0]);
@@ -14,7 +14,7 @@ public class Installer {
 		try (Reader unkjConfigReader = new FileReader(unkjConfigFile);
 			 Reader appConfigReader = new FileReader(appConfigFile)) {
 
-			Installer installer = new Installer(new BootstrapConfiguration(unkjConfigReader), new ApplicationConfiguration(appConfigReader));
+			UnkJInstaller installer = new UnkJInstaller(new BootstrapConfiguration(unkjConfigReader), new ApplicationConfiguration(appConfigReader));
 			installer.init();
 		}
 	}
@@ -22,7 +22,7 @@ public class Installer {
 	private BootstrapConfiguration bootstrapConfig;
 	private ApplicationConfiguration appConfig;
 
-	public Installer(BootstrapConfiguration bootstrapConfig, ApplicationConfiguration appConfig) {
+	public UnkJInstaller(BootstrapConfiguration bootstrapConfig, ApplicationConfiguration appConfig) {
 		this.bootstrapConfig = bootstrapConfig;
 		this.appConfig = appConfig;
 	}

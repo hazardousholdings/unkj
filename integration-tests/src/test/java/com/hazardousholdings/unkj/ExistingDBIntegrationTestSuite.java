@@ -1,7 +1,7 @@
 package com.hazardousholdings.unkj;
 
 import com.hazardousholdings.unkj.install.ApplicationConfiguration;
-import com.hazardousholdings.unkj.install.Installer;
+import com.hazardousholdings.unkj.install.UnkJInstaller;
 import com.hazardousholdings.unkj.integration.InfrastructureFactoryTest;
 import com.hazardousholdings.unkj.integration.UserManagerTest;
 import org.junit.AfterClass;
@@ -20,7 +20,7 @@ public class ExistingDBIntegrationTestSuite {
 		BootstrapConfiguration bootstrapConfig = TestConfigurationFactory.getBootstrapConfiguration(false);
 		ApplicationConfiguration appConfig = TestConfigurationFactory.getApplicationConfiguration();
 
-		Installer installer = new Installer(bootstrapConfig, appConfig);
+		UnkJInstaller installer = new UnkJInstaller(bootstrapConfig, appConfig);
 		installer.init();
 
 		TestInfrastructureFactory.set(new Infrastructure(bootstrapConfig));
