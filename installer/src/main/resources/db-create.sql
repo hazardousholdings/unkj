@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS config
    "key" character varying NOT NULL,
    "value" text NOT NULL,
    "default" boolean NOT NULL DEFAULT FALSE,
-   CONSTRAINT config_pkey PRIMARY KEY ("key", "value")
+   CONSTRAINT config_pkey PRIMARY KEY ("key")
 );
 
 CREATE TABLE IF NOT EXISTS users

@@ -46,5 +46,9 @@ public abstract class ModelEntity<K extends Key> {
 			return super.hashCode();
 		}
 	}
+
+	public void beforePut() {
+		// Do nothing by default
+	}
 	
 }

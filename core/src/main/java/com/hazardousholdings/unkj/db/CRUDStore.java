@@ -20,6 +20,7 @@ public abstract class CRUDStore<K extends Key, V extends ModelEntity<K>> extends
 	protected abstract SelectQuery<V> getByKeyQuery(K key);
 
 	public void put(V item) {
+		item.beforePut();
 		if(item.getKey() != null) {
 			executeUpdate(getUpdateQuery(item));
 		} else {
@@ -29,6 +30,13 @@ public abstract class CRUDStore<K extends Key, V extends ModelEntity<K>> extends
 	}
 
 	public void put(V item, Connection connection) {
+		item.beforePut();
+		if(item.getKey() != null) {
+			executeUpdate(getUpdateQuery(item), connection);
+		} else {
+			K insertedKey = executeInsert(getInsertQuery(item), connection);
+			item.setKey(insertedKey);
+		}
 	}
 
 	protected abstract Query getUpdateQuery(V item);
