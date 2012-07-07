@@ -19,7 +19,7 @@ public class DatabaseCreator {
 		DataSource unkjPool = new DBConnectionPool(this.bootstrapConfig.getDBInfo()).getDataSource();
 		SQLScriptExecutor unkjScriptExecutor = new SQLScriptExecutor(unkjPool);
 
-		try (InputStream in = DatabaseCreator.class.getResourceAsStream("/db-create.sql");
+		try (InputStream in = DatabaseCreator.class.getResourceAsStream("/unkj-db-create.sql");
 			 Reader reader = new InputStreamReader(in);
 			 BufferedReader bufferedReader = new BufferedReader(reader)) {
 

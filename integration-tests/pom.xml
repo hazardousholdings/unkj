@@ -14,11 +14,6 @@
 
 	<name>unkJ Integration Tests</name>
 	<description>Runs tests against an actual database</description>
-	<inceptionYear>2012</inceptionYear>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 
 	<build>
 		<plugins>
@@ -43,12 +38,10 @@
 		<dependency>
 			<groupId>com.hazardousholdings</groupId>
 			<artifactId>unkj-core</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.hazardousholdings</groupId>
 			<artifactId>unkj-installer</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 

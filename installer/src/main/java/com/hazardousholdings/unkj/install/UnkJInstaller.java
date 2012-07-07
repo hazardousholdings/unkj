@@ -3,21 +3,7 @@ package com.hazardousholdings.unkj.install;
 import com.hazardousholdings.unkj.BootstrapConfiguration;
 import com.hazardousholdings.unkj.Infrastructure;
 
-import java.io.*;
-
 public class UnkJInstaller {
-
-	public static void main(String[] args) throws IOException {
-		File unkjConfigFile = new File(args[0]);
-		File appConfigFile = new File(args[1]);
-
-		try (Reader unkjConfigReader = new FileReader(unkjConfigFile);
-			 Reader appConfigReader = new FileReader(appConfigFile)) {
-
-			UnkJInstaller installer = new UnkJInstaller(new BootstrapConfiguration(unkjConfigReader), new ApplicationConfiguration(appConfigReader));
-			installer.init();
-		}
-	}
 
 	private BootstrapConfiguration bootstrapConfig;
 	private ApplicationConfiguration appConfig;
@@ -27,14 +13,22 @@ public class UnkJInstaller {
 		this.appConfig = appConfig;
 	}
 
+	public BootstrapConfiguration getBootstrapConfig() {
+		return bootstrapConfig;
+	}
+
+	public ApplicationConfiguration getAppConfig() {
+		return appConfig;
+	}
+
 	public void init() {
-		initDatabase(this.bootstrapConfig);
+		initUnkJDB(this.bootstrapConfig);
 		Infrastructure infrastructure = new Infrastructure(this.bootstrapConfig);
 
 		initConfig(infrastructure, this.appConfig);
 	}
 
-	protected void initDatabase(BootstrapConfiguration bootstrapConfig) {
+	protected void initUnkJDB(BootstrapConfiguration bootstrapConfig) {
 		DatabaseCreator databaseCreator = new DatabaseCreator(bootstrapConfig);
 		databaseCreator.create();
 	}

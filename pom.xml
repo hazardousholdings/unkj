@@ -9,6 +9,13 @@
 	<packaging>pom</packaging>
 	<version>0.1-SNAPSHOT</version>
 
+	<name>unkJ</name>
+	<description>
+		Library/Framework for lightweight distributed applications.
+		Provides DB connection pooling, auth, caching, config and deployment.
+	</description>
+	<inceptionYear>2012</inceptionYear>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
@@ -36,6 +43,21 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.hazardousholdings</groupId>
+				<artifactId>unkj-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hazardousholdings</groupId>
+				<artifactId>unkj-installer</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>

@@ -14,17 +14,11 @@
 
 	<name>unkJ Installer</name>
 	<description>Creates unkJ database and loads it with configuration from a file</description>
-	<inceptionYear>2012</inceptionYear>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.hazardousholdings</groupId>
 			<artifactId>unkj-core</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 

@@ -14,10 +14,8 @@
 
 	<name>unkJ Core</name>
 	<description>Provides configuration, caching, logging, and auth</description>
-	<inceptionYear>2012</inceptionYear>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<c3p0.version>0.9.1.2</c3p0.version>
 		<guice.version>3.0</guice.version>
 		<postgres.version>9.1-901-1.jdbc4</postgres.version>
