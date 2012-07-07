@@ -23,9 +23,13 @@ public class PagedResults<K extends Key, T extends ModelEntity<K>> {
 		this(currentPageInfo);
 		Iterator<T> iterator = items.iterator();
 
+		boolean useResults = currentPageInfo.getStartingKey() == null;
 		while(iterator.hasNext() && this.results.size() < currentPageInfo.getSize()) {
 			T item = iterator.next();
-			if(currentPageInfo.getStartingKey() == null || item.getKey().compareTo(currentPageInfo.getStartingKey()) >= 0) {
+			if(item.getKey().equals(currentPageInfo.getStartingKey())) {
+				useResults = true;
+			}
+			if(useResults) {
 				this.results.add(item);
 			}
 		}

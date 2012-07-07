@@ -2,7 +2,7 @@ package com.hazardousholdings.unkj.db;
 
 import java.io.Serializable;
 
-public abstract class Key<T extends Comparable<T>> implements Serializable, Comparable<Key<T>> {
+public abstract class Key<T> implements Serializable {
 
 	private T id;
 
@@ -27,10 +27,5 @@ public abstract class Key<T extends Comparable<T>> implements Serializable, Comp
 
 	public String toString() {
 		return "Key: " + this.id;
-	}
-
-	@Override
-	public int compareTo(Key<T> otherKey) {
-		return this.id.compareTo(otherKey.id);
 	}
 }
