@@ -13,10 +13,9 @@ public class PagedResultsTest {
 
 	@Test
 	public void requiredOnlyPage() {
-		List<TestEntity> stuff = makeStuff(5);
-
-		PageInfo<TestEntity.TestEntityKey> firstPageInfo = new PageInfo<>(5);
-		PagedResults<TestEntity.TestEntityKey, TestEntity> firstPage = new PagedResults<>(stuff, firstPageInfo);
+		PageInfo firstPageInfo = new PageInfo(5);
+		PagedResults<TestEntity> firstPage = new PagedResults<>(firstPageInfo);
+		firstPage.setResults(makeStuff(5));
 
 		assertEquals(5, firstPage.getPageInfo().getSize());
 		assertEquals(5, firstPage.getResults().size());
@@ -27,10 +26,9 @@ public class PagedResultsTest {
 
 	@Test
 	public void requiredFirstPage() {
-		List<TestEntity> stuff = makeStuff(6);
-
-		PageInfo<TestEntity.TestEntityKey> firstPageInfo = new PageInfo<>(5);
-		PagedResults<TestEntity.TestEntityKey, TestEntity> firstPage = new PagedResults<>(stuff, firstPageInfo);
+		PageInfo firstPageInfo = new PageInfo(5);
+		PagedResults<TestEntity> firstPage = new PagedResults<>(firstPageInfo);
+		firstPage.setResults(makeStuff(6));
 
 		assertEquals(5, firstPage.getPageInfo().getSize());
 		assertEquals(5, firstPage.getResults().size());
@@ -41,10 +39,9 @@ public class PagedResultsTest {
 
 	@Test
 	public void requiredSubsequentPage() {
-		List<TestEntity> stuff = makeStuff(3);
-
-		PageInfo<TestEntity.TestEntityKey> firstPageInfo = new PageInfo<>(4, 5, new TestEntity.TestEntityKey(0));
-		PagedResults<TestEntity.TestEntityKey, TestEntity> fourthPage = new PagedResults<>(stuff, firstPageInfo);
+		PageInfo firstPageInfo = new PageInfo(4, 5);
+		PagedResults<TestEntity> fourthPage = new PagedResults<>(firstPageInfo);
+		fourthPage.setResults(makeStuff(3));
 
 		assertEquals(5, fourthPage.getPageInfo().getSize());
 		assertEquals(3, fourthPage.getResults().size());
@@ -55,22 +52,22 @@ public class PagedResultsTest {
 
 	@Test
 	public void extraPagedEven() {
-		List<TestEntity> stuff = makeStuff(10);
+		PageInfo firstPageInfo = new PageInfo(5);
+		PagedResults<TestEntity> firstPage = new PagedResults<>(firstPageInfo);
+		firstPage.setResultsFromAll(makeStuff(10));
 
-		PageInfo<TestEntity.TestEntityKey> firstPageInfo = new PageInfo<>(5);
-		PagedResults<TestEntity.TestEntityKey, TestEntity> firstPage = new PagedResults<>(stuff, firstPageInfo);
-
-		assertEquals(0, firstPage.getPageInfo().getIndex());
-		assertEquals(0, firstPage.getPageInfo().getIndex());
+		assertEquals(0, firstPage.getPageInfo().getPageIndex());
+		assertEquals(0, firstPage.getPageInfo().getPageIndex());
 		assertEquals(5, firstPage.getResults().size());
 		assertEquals(Long.valueOf(0), firstPage.getResults().get(0).getKey().getId());
 		assertEquals(Long.valueOf(4), firstPage.getResults().get(4).getKey().getId());
 		assertTrue(firstPage.hasMorePages());
-		assertEquals(Long.valueOf(5), firstPage.getNextPageInfo().getStartingKey().getId());
+		assertEquals(5, firstPage.getNextPageInfo().getPageStartingIndex());
 
-		PagedResults<TestEntity.TestEntityKey, TestEntity> secondPage = new PagedResults<>(stuff, firstPage.getNextPageInfo());
+		PagedResults<TestEntity> secondPage = new PagedResults<>(firstPage.getNextPageInfo());
+		secondPage.setResultsFromAll(makeStuff(10));
 
-		assertEquals(1, secondPage.getPageInfo().getIndex());
+		assertEquals(1, secondPage.getPageInfo().getPageIndex());
 		assertEquals(5, secondPage.getResults().size());
 		assertEquals(Long.valueOf(5), secondPage.getResults().get(0).getKey().getId());
 		assertEquals(Long.valueOf(9), secondPage.getResults().get(4).getKey().getId());
@@ -79,22 +76,22 @@ public class PagedResultsTest {
 
 	@Test
 	public void extraPagedRagged() {
-		List<TestEntity> stuff = makeStuff(8);
+		PageInfo firstPageInfo = new PageInfo(5);
+		PagedResults<TestEntity> firstPage = new PagedResults<>(firstPageInfo);
+		firstPage.setResultsFromAll(makeStuff(8));
 
-		PageInfo<TestEntity.TestEntityKey> firstPageInfo = new PageInfo<>(5);
-		PagedResults<TestEntity.TestEntityKey, TestEntity> firstPage = new PagedResults<>(stuff, firstPageInfo);
-
-		assertEquals(0, firstPage.getPageInfo().getIndex());
-		assertEquals(0, firstPage.getPageInfo().getIndex());
+		assertEquals(0, firstPage.getPageInfo().getPageIndex());
+		assertEquals(0, firstPage.getPageInfo().getPageIndex());
 		assertEquals(5, firstPage.getResults().size());
 		assertEquals(Long.valueOf(0), firstPage.getResults().get(0).getKey().getId());
 		assertEquals(Long.valueOf(4), firstPage.getResults().get(4).getKey().getId());
 		assertTrue(firstPage.hasMorePages());
-		assertEquals(Long.valueOf(5), firstPage.getNextPageInfo().getStartingKey().getId());
+		assertEquals(5, firstPage.getNextPageInfo().getPageStartingIndex());
 
-		PagedResults<TestEntity.TestEntityKey, TestEntity> secondPage = new PagedResults<>(stuff, firstPage.getNextPageInfo());
+		PagedResults<TestEntity> secondPage = new PagedResults<>(firstPage.getNextPageInfo());
+		secondPage.setResultsFromAll(makeStuff(8));
 
-		assertEquals(1, secondPage.getPageInfo().getIndex());
+		assertEquals(1, secondPage.getPageInfo().getPageIndex());
 		assertEquals(3, secondPage.getResults().size());
 		assertEquals(Long.valueOf(5), secondPage.getResults().get(0).getKey().getId());
 		assertEquals(Long.valueOf(7), secondPage.getResults().get(2).getKey().getId());

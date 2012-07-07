@@ -1,35 +1,30 @@
 package com.hazardousholdings.unkj.db.paging;
 
-import com.hazardousholdings.unkj.db.Key;
+public class PageInfo {
 
-public class PageInfo<K extends Key> {
-
-	private int index;
+	private int pageIndex;
 	private int size;
-	private K startingKey;
 
 	public PageInfo(int size) {
-		this.index = 0;
+		this.pageIndex = 0;
 		this.size = size;
-		this.startingKey = null;
 	}
 
-	public PageInfo(int index, int size, K startingKey) {
-		this.index = index;
+	public PageInfo(int pageIndex, int size) {
+		this.pageIndex = pageIndex;
 		this.size = size;
-		this.startingKey = startingKey;
 	}
 
-	public int getIndex() {
-		return this.index;
+	public int getPageIndex() {
+		return this.pageIndex;
 	}
 
 	public int getSize() {
 		return this.size;
 	}
 
-	public K getStartingKey() {
-		return this.startingKey;
+	public int getPageStartingIndex() {
+		return this.pageIndex * this.size;
 	}
 
 }
