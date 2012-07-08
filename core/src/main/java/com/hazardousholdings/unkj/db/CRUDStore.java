@@ -44,11 +44,15 @@ public abstract class CRUDStore<K extends Key, V extends ModelEntity<K>> extends
 	protected abstract InsertQuery<K> getInsertQuery(V item);
 
 	public void delete(K key) {
-		executeUpdate(getDeleteQuery(key));
+		if(key != null) {
+			executeUpdate(getDeleteQuery(key));
+		}
 	}
 
 	public void delete(K key, Connection connection) {
-		executeUpdate(getDeleteQuery(key), connection);
+		if(key != null) {
+			executeUpdate(getDeleteQuery(key), connection);
+		}
 	}
 
 	protected abstract Query getDeleteQuery(K key);
