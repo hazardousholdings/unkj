@@ -1,7 +1,6 @@
 package com.hazardousholdings.unkj;
 
-import com.hazardousholdings.unkj.install.ApplicationConfiguration;
-import com.hazardousholdings.unkj.install.UnkJInstaller;
+import com.hazardousholdings.unkj.install.DatabaseCreator;
 import com.hazardousholdings.unkj.integration.InfrastructureFactoryTest;
 import com.hazardousholdings.unkj.integration.UserManagerTest;
 import org.junit.AfterClass;
@@ -17,13 +16,10 @@ public class ExistingDBIntegrationTestSuite {
 
 	@BeforeClass
 	public static void initInfrastructure() throws IOException {
-		BootstrapConfiguration bootstrapConfig = TestConfigurationFactory.getBootstrapConfiguration(false);
-		ApplicationConfiguration appConfig = TestConfigurationFactory.getApplicationConfiguration();
+		DatabaseCreator creator = new DatabaseCreator(TestConfigurationFactory.getBootstrapConfiguration(false));
+		creator.create();
 
-		UnkJInstaller installer = new UnkJInstaller(bootstrapConfig, appConfig);
-		installer.init();
-
-		TestInfrastructureFactory.set(new Infrastructure(bootstrapConfig));
+		TestInfrastructureFactory.set(new Infrastructure(TestConfigurationFactory.getBootstrapConfiguration(false)));
 	}
 
 	@AfterClass

@@ -16,13 +16,11 @@ public class Infrastructure {
 	private Configuration configuration;
 	private Cache cache;
 
-	public Infrastructure(BootstrapConfiguration bootstrapConfig) {
-		DataSource unkjPool = new DBConnectionPool(bootstrapConfig.getDBInfo()).getDataSource();
-
-		Configuration cacheConfiguration = new Configuration(unkjPool, new NoOpCache());
+	public Infrastructure(BootstrapConfiguration bootstrapConfiguration) {
+		this.configuration = new Configuration();
 		this.cache = new NoOpCache();
 
-		this.configuration = new Configuration(unkjPool, this.cache);
+		DataSource unkjPool = new DBConnectionPool(bootstrapConfiguration.getDBInfo()).getDataSource();
 		this.userManager = new UserManager(unkjPool);
 		this.groupManager = new GroupManager(unkjPool);
 	}

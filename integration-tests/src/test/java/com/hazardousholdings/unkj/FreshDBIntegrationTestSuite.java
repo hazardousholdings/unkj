@@ -1,7 +1,6 @@
 package com.hazardousholdings.unkj;
 
-import com.hazardousholdings.unkj.install.ApplicationConfiguration;
-import com.hazardousholdings.unkj.install.UnkJInstaller;
+import com.hazardousholdings.unkj.install.DatabaseCreator;
 import com.hazardousholdings.unkj.integration.InfrastructureFactoryTest;
 import com.hazardousholdings.unkj.integration.UserManagerTest;
 import org.junit.AfterClass;
@@ -28,11 +27,10 @@ public class FreshDBIntegrationTestSuite {
 			statement.execute("create database unkjtesttemp");
 		}
 
-		BootstrapConfiguration freshBootstrapConfig = TestConfigurationFactory.getBootstrapConfiguration(false);
-		ApplicationConfiguration appConfig = TestConfigurationFactory.getApplicationConfiguration();
+		BootstrapConfiguration freshBootstrapConfig = TestConfigurationFactory.getBootstrapConfiguration(true);
 
-		UnkJInstaller installer = new UnkJInstaller(freshBootstrapConfig, appConfig);
-		installer.init();
+		DatabaseCreator creator = new DatabaseCreator(freshBootstrapConfig);
+		creator.create();
 
 		TestInfrastructureFactory.set(new Infrastructure(freshBootstrapConfig));
 	}

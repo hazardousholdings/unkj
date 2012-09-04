@@ -25,7 +25,7 @@
 	
 	<modules>
 		<module>core</module>
-		<module>installer</module>
+		<module>database</module>
 		<module>integration-tests</module>
 	</modules>
 
