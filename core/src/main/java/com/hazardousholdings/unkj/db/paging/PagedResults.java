@@ -28,16 +28,19 @@ public class PagedResults<T extends ModelEntity> {
 
 	private void setResults(Iterable<T> items, int startIndex) {
 		Iterator<T> iterator = items.iterator();
-		int index = 0;
-		while(iterator.hasNext() && this.results.size() < this.currentPageInfo.getSize()) {
-			T item = iterator.next();
-			if(index >= startIndex) {
-				this.results.add(item);
-			}
-			index++;
+		for(int i = 0; i < startIndex; i++) {
+			iterator.next();
 		}
 
-		if(iterator.hasNext()) {
+		while(iterator.hasNext()) {
+			addResult(iterator.next());
+		}
+	}
+
+	public void addResult(T item) {
+		if(this.results.size() < this.currentPageInfo.getSize()) {
+			this.results.add(item);
+		} else {
 			this.nextPageInfo = new PageInfo(this.currentPageInfo.getPageIndex() + 1, this.currentPageInfo.getSize());
 		}
 	}
