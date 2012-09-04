@@ -53,7 +53,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.hazardousholdings</groupId>
-				<artifactId>unkj-installer</artifactId>
+				<artifactId>unkj-database</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>

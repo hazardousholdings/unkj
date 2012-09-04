@@ -41,7 +41,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.hazardousholdings</groupId>
-			<artifactId>unkj-installer</artifactId>
+			<artifactId>unkj-database</artifactId>
 		</dependency>
 	</dependencies>
 
