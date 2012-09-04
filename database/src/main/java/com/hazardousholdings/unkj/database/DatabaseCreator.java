@@ -1,6 +1,7 @@
 package com.hazardousholdings.unkj.database;
 
-import com.hazardousholdings.unkj.BootstrapConfiguration;
+import com.hazardousholdings.unkj.config.Configuration;
+import com.hazardousholdings.unkj.config.UnkJConfigKeys;
 import com.hazardousholdings.unkj.db.DBConnectionPool;
 import com.hazardousholdings.unkj.db.JDBCConnectInfo;
 import com.hazardousholdings.unkj.db.SQLScriptExecutor;
@@ -12,8 +13,8 @@ public class DatabaseCreator {
 
 	private JDBCConnectInfo connectInfo;
 
-	public DatabaseCreator(BootstrapConfiguration bootstrapConfig) {
-		this.connectInfo = bootstrapConfig.getDBInfo();
+	public DatabaseCreator(JDBCConnectInfo connectInfo) {
+		this.connectInfo = connectInfo;
 	}
 
 	public void create() {
@@ -31,7 +32,8 @@ public class DatabaseCreator {
 	}
 
 	public static void main(String args[]) {
-		DatabaseCreator creator = new DatabaseCreator(new BootstrapConfiguration());
+		Configuration configuration = new Configuration();
+		DatabaseCreator creator = new DatabaseCreator(configuration.getDBConnectInfo(UnkJConfigKeys.DB));
 		creator.create();
 	}
 

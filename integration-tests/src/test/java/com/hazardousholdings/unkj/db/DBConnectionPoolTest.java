@@ -1,6 +1,8 @@
 package com.hazardousholdings.unkj.db;
 
 import com.hazardousholdings.unkj.TestConfigurationFactory;
+import com.hazardousholdings.unkj.config.Configuration;
+import com.hazardousholdings.unkj.config.UnkJConfigKeys;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.junit.Test;
 
@@ -10,15 +12,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class DBConnectionPoolTest {
 
 	@Test
 	public void local() throws SQLException, IOException {
-		JDBCConnectInfo localInfo = TestConfigurationFactory.getBootstrapConfiguration(false).getDBInfo();
+		TestConfigurationFactory.setConfiguration(false);
+		JDBCConnectInfo localInfo = new Configuration().getDBConnectInfo(UnkJConfigKeys.DB);
 		DBConnectionPool pool = new DBConnectionPool(localInfo);
 		ComboPooledDataSource dataSource = (ComboPooledDataSource) pool.getDataSource();
 

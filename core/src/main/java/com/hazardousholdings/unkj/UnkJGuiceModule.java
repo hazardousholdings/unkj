@@ -8,8 +8,7 @@ public class UnkJGuiceModule extends AbstractModule {
 	private Infrastructure infrastructure;
 
 	public UnkJGuiceModule() {
-		BootstrapConfiguration bootstrapConfig = new BootstrapConfiguration();
-		this.infrastructure = new Infrastructure(bootstrapConfig);
+		this.infrastructure = new Infrastructure();
 	}
 
 	@Override

@@ -1,24 +1,20 @@
 package com.hazardousholdings.unkj;
 
-import com.hazardousholdings.unkj.db.JDBCConnectInfo;
-
 import java.io.IOException;
 
 public class TestConfigurationFactory {
 
-	public static BootstrapConfiguration getBootstrapConfiguration(final boolean fresh) throws IOException {
+	public static void setConfiguration(final boolean fresh) throws IOException {
 		if(fresh) {
-			return new BootstrapConfiguration(new JDBCConnectInfo(
-					org.postgresql.Driver.class.getName(),
-					"jdbc:postgresql://localhost:5432/unkjtesttemp",
-					"unkjtest",
-					"unkjtest"));
+			System.setProperty("DB_DRIVER_CLASS", "org.postgresql.Driver");
+			System.setProperty("DB_CONNECT_STRING", "jdbc:postgresql://localhost:5432/unkjtesttemp");
+			System.setProperty("DB_USER", "unkjtest");
+			System.setProperty("DB_PASSWORD", "unkjtest");
 		} else {
-			return new BootstrapConfiguration(new JDBCConnectInfo(
-					org.postgresql.Driver.class.getName(),
-					"jdbc:postgresql://localhost:5432/unkjtest",
-					"unkjtest",
-					"unkjtest"));
+			System.setProperty("DB_DRIVER_CLASS", "org.postgresql.Driver");
+			System.setProperty("DB_CONNECT_STRING", "jdbc:postgresql://localhost:5432/unkjtest");
+			System.setProperty("DB_USER", "unkjtest");
+			System.setProperty("DB_PASSWORD", "unkjtest");
 		}
 	}
 }

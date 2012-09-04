@@ -1,5 +1,7 @@
 package com.hazardousholdings.unkj;
 
+import com.hazardousholdings.unkj.config.Configuration;
+import com.hazardousholdings.unkj.config.UnkJConfigKeys;
 import com.hazardousholdings.unkj.database.DatabaseCreator;
 import com.hazardousholdings.unkj.integration.InfrastructureFactoryTest;
 import com.hazardousholdings.unkj.integration.UserManagerTest;
@@ -19,20 +21,22 @@ public class FreshDBIntegrationTestSuite {
 
 	@BeforeClass
 	public static void initInfrastructure() throws SQLException, IOException {
-		BootstrapConfiguration bootstrapConfig = TestConfigurationFactory.getBootstrapConfiguration(false);
-		try(Connection connection = bootstrapConfig.getDBInfo().getConnection();
+		Configuration configuration = new Configuration();
+
+		TestConfigurationFactory.setConfiguration(false);
+		try(Connection connection = configuration.getDBConnectInfo(UnkJConfigKeys.DB).getConnection();
 			Statement statement = connection.createStatement()) {
 
 			statement.execute("drop database if exists unkjtesttemp");
 			statement.execute("create database unkjtesttemp");
 		}
 
-		BootstrapConfiguration freshBootstrapConfig = TestConfigurationFactory.getBootstrapConfiguration(true);
+		TestConfigurationFactory.setConfiguration(true);
 
-		DatabaseCreator creator = new DatabaseCreator(freshBootstrapConfig);
+		DatabaseCreator creator = new DatabaseCreator(configuration.getDBConnectInfo(UnkJConfigKeys.DB));
 		creator.create();
 
-		TestInfrastructureFactory.set(new Infrastructure(freshBootstrapConfig));
+		TestInfrastructureFactory.set(new Infrastructure());
 	}
 
 	@AfterClass

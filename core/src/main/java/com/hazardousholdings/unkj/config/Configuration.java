@@ -23,11 +23,11 @@ public class Configuration {
 	}
 
 	public JDBCConnectInfo getDBConnectInfo(String name) {
-		String driver = get(name, "driverClass");
+		String driver = get(name, "DRIVER_CLASS");
 		if(driver != null) {
-			String connectString = get(name, "connectString");
-			String user = get(name, "user");
-			String password = get(name, "password");
+			String connectString = get(name, "CONNECT_STRING");
+			String user = get(name, "USER");
+			String password = get(name, "PASSWORD");
 
 			return new JDBCConnectInfo(driver, connectString, user, password);
 		} else {
