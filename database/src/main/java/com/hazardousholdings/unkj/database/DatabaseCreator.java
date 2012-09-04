@@ -1,4 +1,4 @@
-package com.hazardousholdings.unkj.install;
+package com.hazardousholdings.unkj.database;
 
 import com.hazardousholdings.unkj.BootstrapConfiguration;
 import com.hazardousholdings.unkj.db.DBConnectionPool;

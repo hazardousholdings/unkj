@@ -1,6 +1,6 @@
 package com.hazardousholdings.unkj;
 
-import com.hazardousholdings.unkj.install.DatabaseCreator;
+import com.hazardousholdings.unkj.database.DatabaseCreator;
 import com.hazardousholdings.unkj.integration.InfrastructureFactoryTest;
 import com.hazardousholdings.unkj.integration.UserManagerTest;
 import org.junit.AfterClass;

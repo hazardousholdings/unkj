@@ -9,11 +9,11 @@
 		<artifactId>unkj</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>unkj-installer</artifactId>
+	<artifactId>unkj-database</artifactId>
 	<packaging>jar</packaging>
 
-	<name>unkJ Installer</name>
-	<description>Creates unkJ database and loads it with configuration from a file</description>
+	<name>unkJ Database</name>
+	<description>Creates unkJ database</description>
 
 	<dependencies>
 		<dependency>
