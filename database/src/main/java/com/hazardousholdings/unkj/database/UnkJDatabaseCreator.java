@@ -9,19 +9,19 @@ import com.hazardousholdings.unkj.db.SQLScriptExecutor;
 import javax.sql.DataSource;
 import java.io.*;
 
-public class DatabaseCreator {
+public class UnkJDatabaseCreator {
 
 	private JDBCConnectInfo connectInfo;
 
-	public DatabaseCreator(JDBCConnectInfo connectInfo) {
-		this.connectInfo = connectInfo;
+	public UnkJDatabaseCreator(Configuration configuration) {
+		this.connectInfo = configuration.getDBConnectInfo(UnkJConfigKeys.DB);
 	}
 
 	public void create() {
 		DataSource unkjPool = new DBConnectionPool(this.connectInfo).getDataSource();
 		SQLScriptExecutor unkjScriptExecutor = new SQLScriptExecutor(unkjPool);
 
-		try (InputStream in = DatabaseCreator.class.getResourceAsStream("/unkj-db-create.sql");
+		try (InputStream in = UnkJDatabaseCreator.class.getResourceAsStream("/unkj-db-create.sql");
 			 Reader reader = new InputStreamReader(in);
 			 BufferedReader bufferedReader = new BufferedReader(reader)) {
 
@@ -33,7 +33,7 @@ public class DatabaseCreator {
 
 	public static void main(String args[]) {
 		Configuration configuration = new Configuration();
-		DatabaseCreator creator = new DatabaseCreator(configuration.getDBConnectInfo(UnkJConfigKeys.DB));
+		UnkJDatabaseCreator creator = new UnkJDatabaseCreator(configuration);
 		creator.create();
 	}
 

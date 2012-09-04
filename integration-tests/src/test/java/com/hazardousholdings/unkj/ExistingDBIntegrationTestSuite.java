@@ -1,8 +1,7 @@
 package com.hazardousholdings.unkj;
 
 import com.hazardousholdings.unkj.config.Configuration;
-import com.hazardousholdings.unkj.config.UnkJConfigKeys;
-import com.hazardousholdings.unkj.database.DatabaseCreator;
+import com.hazardousholdings.unkj.database.UnkJDatabaseCreator;
 import com.hazardousholdings.unkj.integration.InfrastructureFactoryTest;
 import com.hazardousholdings.unkj.integration.UserManagerTest;
 import org.junit.AfterClass;
@@ -20,7 +19,7 @@ public class ExistingDBIntegrationTestSuite {
 	public static void initInfrastructure() throws IOException {
 		TestConfigurationFactory.setConfiguration(false);
 
-		DatabaseCreator creator = new DatabaseCreator(new Configuration().getDBConnectInfo(UnkJConfigKeys.DB));
+		UnkJDatabaseCreator creator = new UnkJDatabaseCreator(new Configuration());
 		creator.create();
 
 		TestInfrastructureFactory.set(new Infrastructure());

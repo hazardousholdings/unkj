@@ -2,7 +2,7 @@ package com.hazardousholdings.unkj;
 
 import com.hazardousholdings.unkj.config.Configuration;
 import com.hazardousholdings.unkj.config.UnkJConfigKeys;
-import com.hazardousholdings.unkj.database.DatabaseCreator;
+import com.hazardousholdings.unkj.database.UnkJDatabaseCreator;
 import com.hazardousholdings.unkj.integration.InfrastructureFactoryTest;
 import com.hazardousholdings.unkj.integration.UserManagerTest;
 import org.junit.AfterClass;
@@ -33,7 +33,7 @@ public class FreshDBIntegrationTestSuite {
 
 		TestConfigurationFactory.setConfiguration(true);
 
-		DatabaseCreator creator = new DatabaseCreator(configuration.getDBConnectInfo(UnkJConfigKeys.DB));
+		UnkJDatabaseCreator creator = new UnkJDatabaseCreator(configuration);
 		creator.create();
 
 		TestInfrastructureFactory.set(new Infrastructure());
