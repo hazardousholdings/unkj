@@ -66,18 +66,11 @@
 			<artifactId>spymemcached</artifactId>
 			<version>${spymemcached.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
-
-	<repositories>
-		<repository>
-			<id>spy</id>
-			<name>Spy Repository</name>
-			<layout>default</layout>
-			<url>http://files.couchbase.com/maven2/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
 
 </project>
