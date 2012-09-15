@@ -24,7 +24,7 @@ public class FreshDBIntegrationTestSuite {
 		Configuration configuration = new Configuration();
 
 		TestConfigurationFactory.setConfiguration(false);
-		try(Connection connection = configuration.getDBConnectInfo(UnkJConfigKeys.DB).getConnection();
+		try(Connection connection = configuration.getDBConnectInfo(UnkJConfigKeys.DEFAULT_DB).getConnection();
 			Statement statement = connection.createStatement()) {
 
 			statement.execute("drop database if exists unkjtesttemp");

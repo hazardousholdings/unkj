@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 
 public class Infrastructure {
 
+	private DataSource defaultPool;
 	private UserManager userManager;
 	private GroupManager groupManager;
 	private Configuration configuration;
@@ -21,9 +22,13 @@ public class Infrastructure {
 		this.configuration = new Configuration();
 		this.cache = new NoOpCache();
 
-		DataSource unkjPool = new DBConnectionPool(this.configuration.getDBConnectInfo(UnkJConfigKeys.DB)).getDataSource();
-		this.userManager = new UserManager(unkjPool);
-		this.groupManager = new GroupManager(unkjPool);
+		this.defaultPool = new DBConnectionPool(this.configuration.getDBConnectInfo(UnkJConfigKeys.DEFAULT_DB)).getDataSource();
+		this.userManager = new UserManager(this.defaultPool);
+		this.groupManager = new GroupManager(this.defaultPool);
+	}
+
+	public DataSource getDefaultDBPool() {
+		return this.defaultPool;
 	}
 
 	public Configuration getConfiguration() {

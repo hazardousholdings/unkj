@@ -2,6 +2,8 @@ package com.hazardousholdings.unkj.config;
 
 import com.hazardousholdings.unkj.db.JDBCConnectInfo;
 
+import java.net.URI;
+
 public class Configuration {
 
 	private ConfigurationStore configStore;
@@ -22,15 +24,15 @@ public class Configuration {
 		return get(key + "_" + suffix);
 	}
 
-	public JDBCConnectInfo getDBConnectInfo(String name) {
-		String driver = get(name, "DRIVER_CLASS");
-		if(driver != null) {
-			String connectString = get(name, "CONNECT_STRING");
-			String user = get(name, "USER");
-			String password = get(name, "PASSWORD");
+	public JDBCConnectInfo getDBConnectInfo(String key) {
+		try {
+			URI databaseUrl = new URI(get(key)); // postgres://username:password@host:port/database_name
+			String username = databaseUrl.getUserInfo().split(":")[0];
+			String password = databaseUrl.getUserInfo().split(":")[1];
+			String connectString = "jdbc:postgresql://" + databaseUrl.getHost() + databaseUrl.getPath() + ":" + databaseUrl.getPort();
 
-			return new JDBCConnectInfo(driver, connectString, user, password);
-		} else {
+			return new JDBCConnectInfo(org.postgresql.Driver.class.getName(), connectString, username, password);
+		} catch (Exception ex) {
 			return null;
 		}
 	}

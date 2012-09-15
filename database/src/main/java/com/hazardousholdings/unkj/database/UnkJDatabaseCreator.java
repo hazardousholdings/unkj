@@ -14,7 +14,7 @@ public class UnkJDatabaseCreator {
 	private JDBCConnectInfo connectInfo;
 
 	public UnkJDatabaseCreator(Configuration configuration) {
-		this.connectInfo = configuration.getDBConnectInfo(UnkJConfigKeys.DB);
+		this.connectInfo = configuration.getDBConnectInfo(UnkJConfigKeys.DEFAULT_DB);
 	}
 
 	public void create() {

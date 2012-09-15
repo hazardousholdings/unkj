@@ -19,7 +19,7 @@ public class DBConnectionPoolTest {
 	@Test
 	public void local() throws SQLException, IOException {
 		TestConfigurationFactory.setConfiguration(false);
-		JDBCConnectInfo localInfo = new Configuration().getDBConnectInfo(UnkJConfigKeys.DB);
+		JDBCConnectInfo localInfo = new Configuration().getDBConnectInfo(UnkJConfigKeys.DEFAULT_DB);
 		DBConnectionPool pool = new DBConnectionPool(localInfo);
 		ComboPooledDataSource dataSource = (ComboPooledDataSource) pool.getDataSource();
 
