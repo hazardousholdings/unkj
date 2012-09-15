@@ -1,12 +1,9 @@
 package com.hazardousholdings.unkj.database;
 
 import com.hazardousholdings.unkj.config.Configuration;
-import com.hazardousholdings.unkj.config.UnkJConfigKeys;
-import com.hazardousholdings.unkj.db.DBConnectionPool;
 import com.hazardousholdings.unkj.db.JDBCConnectInfo;
 import com.hazardousholdings.unkj.db.SQLScriptExecutor;
 
-import javax.sql.DataSource;
 import java.io.*;
 
 public class UnkJDatabaseCreator {
@@ -14,12 +11,11 @@ public class UnkJDatabaseCreator {
 	private JDBCConnectInfo connectInfo;
 
 	public UnkJDatabaseCreator(Configuration configuration) {
-		this.connectInfo = configuration.getDBConnectInfo(UnkJConfigKeys.DEFAULT_DB);
+		this.connectInfo = configuration.getDefaultDBConnectInfo();
 	}
 
 	public void create() {
-		DataSource unkjPool = new DBConnectionPool(this.connectInfo).getDataSource();
-		SQLScriptExecutor unkjScriptExecutor = new SQLScriptExecutor(unkjPool);
+		SQLScriptExecutor unkjScriptExecutor = new SQLScriptExecutor(this.connectInfo);
 
 		try (InputStream in = UnkJDatabaseCreator.class.getResourceAsStream("/unkj-db-create.sql");
 			 Reader reader = new InputStreamReader(in);

@@ -1,6 +1,5 @@
 package com.hazardousholdings.unkj.db;
 
-import javax.sql.DataSource;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -9,16 +8,16 @@ import java.sql.Statement;
 
 public class SQLScriptExecutor {
 
-	private DataSource dataSource;
+	private JDBCConnectInfo connectInfo;
 
-	public SQLScriptExecutor(DataSource dataSource) {
-		this.dataSource = dataSource;
+	public SQLScriptExecutor(JDBCConnectInfo connectInfo) {
+		this.connectInfo = connectInfo;
 	}
 
 	public void executeScript(BufferedReader script) throws IOException {
 		String statementText = "";
 
-		try(Connection connection = this.dataSource.getConnection()) {
+		try(Connection connection = this.connectInfo.getConnection()) {
 			connection.setAutoCommit(false);
 
 			String line;

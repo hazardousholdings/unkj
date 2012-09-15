@@ -24,6 +24,10 @@ public class Configuration {
 		return get(key + "_" + suffix);
 	}
 
+	public JDBCConnectInfo getDefaultDBConnectInfo() {
+		return getDBConnectInfo(UnkJConfigKeys.DEFAULT_DB);
+	}
+
 	public JDBCConnectInfo getDBConnectInfo(String key) {
 		try {
 			URI databaseUrl = new URI(get(key)); // postgres://username:password@host:port/database_name
