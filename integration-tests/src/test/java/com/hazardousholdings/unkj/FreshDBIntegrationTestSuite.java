@@ -1,7 +1,6 @@
 package com.hazardousholdings.unkj;
 
 import com.hazardousholdings.unkj.config.Configuration;
-import com.hazardousholdings.unkj.config.UnkJConfigKeys;
 import com.hazardousholdings.unkj.database.UnkJDatabaseCreator;
 import com.hazardousholdings.unkj.integration.InfrastructureFactoryTest;
 import com.hazardousholdings.unkj.integration.UserManagerTest;
@@ -24,7 +23,7 @@ public class FreshDBIntegrationTestSuite {
 		Configuration configuration = new Configuration();
 
 		TestConfigurationFactory.setConfiguration(false);
-		try(Connection connection = configuration.getDBConnectInfo(UnkJConfigKeys.DEFAULT_DB).getConnection();
+		try(Connection connection = configuration.getDefaultDBConnectInfo().getConnection();
 			Statement statement = connection.createStatement()) {
 
 			statement.execute("drop database if exists unkjtesttemp");

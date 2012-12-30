@@ -56,6 +56,13 @@
 	</dependencyManagement>
 
 	<build>
+        <extensions>
+            <extension>
+                <groupId>org.springframework.build.aws</groupId>
+                <artifactId>org.springframework.build.aws.maven</artifactId>
+                <version>3.0.0.RELEASE</version>
+            </extension>
+        </extensions>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -72,19 +79,41 @@
 	</build>
 
 	<distributionManagement>
-		<repository>
-			<id>hh</id>
-			<name>Hazardous Holdings Public Repository</name>
-			<url>http://fire.hazardousholdings.com/archiva/repository/hh/</url>
-		</repository>
+        <repository>
+            <id>public-hh-release</id>
+            <name>Hazardous Holdings Public Repository</name>
+            <url>s3://public-mvn-repository/release</url>
+        </repository>
+        <snapshotRepository>
+            <id>public-hh-snapshot</id>
+            <name>Hazardous Holdings Public Repository (Snapshots)</name>
+            <url>s3://public-mvn-repository/snapshot</url>
+        </snapshotRepository>
 	</distributionManagement>
 
 	<repositories>
-		<repository>
-			<id>hh</id>
-			<name>Hazardous Holdings Public Repository</name>
-			<url>http://fire.hazardousholdings.com/archiva/repository/hh/</url>
-		</repository>
+        <repository>
+            <id>public-hh-release</id>
+            <name>Hazardous Holdings Public Repository</name>
+            <url>s3://public-mvn-repository/release</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>public-hh-snapshot</id>
+            <name>Hazardous Holdings Public Repository (Snapshots)</name>
+            <url>s3://public-mvn-repository/snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
 	</repositories>
 
 </project>
